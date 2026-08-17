@@ -8,7 +8,7 @@
 
 ## 硬件架构
 
-```
+```mermaid
 graph TB
     subgraph Vision_System [视觉采集单元]
         LC[左摄像头<br>Left Camera]
