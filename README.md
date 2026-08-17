@@ -55,41 +55,63 @@ graph TB
 
 ### 六阶段三维重建流水线 (S1-S6)
 
-```
-S1 激光中心线提取
+```mermaid
+flowchart TD
+    %% 定义样式
+    classDef mainNode fill:#e3f2fd,stroke:#1565c0,stroke-width:2px,color:#0d47a1
+    classDef subNode fill:#fafafa,stroke:#90caf9,stroke-width:1px,color:#333
 
-  Steger 亚像素提取：Hessian 矩阵特征分析
-  灰度质心法：带激光掩膜
-  列最大值法
+    %% S1 模块
+    subgraph S1 [S1 激光中心线提取]
+        direction TB
+        S1_1[Steger 亚像素提取<br/>Hessian 矩阵特征分析]:::subNode
+        S1_2[灰度质心法<br/>带激光掩膜]:::subNode
+        S1_3[列最大值法]:::subNode
+    end
 
-S2 极线约束匹配
+    %% S2 模块
+    subgraph S2 [S2 极线约束匹配]
+        direction TB
+        S2_1[校正模式<br/>视差断裂分割 + 动态规划匹配]:::subNode
+        S2_2[非校正模式<br/>基础矩阵 + 极线距离最小化]:::subNode
+    end
 
-  校正模式：视差断裂分割 + 动态规划匹配
-  非校正模式：基础矩阵 + 极线距离最小化
+    %% S3 模块
+    subgraph S3 [S3 三角测量]
+        direction TB
+        S3_1[cv::triangulatePoints 三维重建]:::subNode
+        S3_2[投影至激光平面降噪]:::subNode
+    end
 
-S3 三角测量
+    %% S4 模块
+    subgraph S4 [S4 坐标变换]
+        S4_1[相机坐标系 → 转台世界坐标系]:::subNode
+    end
 
-  cv::triangulatePoints 三维重建
-  投影至激光平面降噪
+    %% S5 模块
+    subgraph S5 [S5 多视角 ICP 配准]
+        direction TB
+        S5_1[理论旋转初值<br/>已知转轴/角度]:::subNode
+        S5_2[Point-to-Plane ICP 增量配准]:::subNode
+        S5_3[闭环误差 SE 3 分布检测]:::subNode
+    end
 
-S4 坐标变换
+    %% S6 模块
+    subgraph S6 [S6 去噪 + 曲面重建]
+        direction TB
+        S6_1[统计离群点移除 SOR]:::subNode
+        S6_2[体素下采样 / MLS 平滑]:::subNode
+        S6_3[Poisson 重建 / 贪婪投影三角化]:::subNode
+        S6_4[Laplacian 网格平滑]:::subNode
+        S6_5[自适应网格截断]:::subNode
+        S6_6[底部间隙填补<br/>RANSAC 转台平面]:::subNode
+    end
 
-  相机坐标系 → 转台世界坐标系
+    %% 主流程连接
+    S1 --> S2 --> S3 --> S4 --> S5 --> S6
 
-S5 多视角 ICP 配准
-
-  理论旋转初值：已知转轴/角度
-  Point-to-Plane ICP：增量配准
-  闭环误差：SE(3) 分布检测
-
-S6 去噪 + 曲面重建
-
-  统计离群点移除 (SOR)
-  体素下采样 / MLS 平滑
-  Poisson 重建 / 贪婪投影三角化
-  Laplacian 网格平滑
-  自适应网格截断
-  底部间隙填补 (RANSAC 转台平面)
+    %% 应用样式
+    class S1,S2,S3,S4,S5,S6 mainNode
 ```
 
 ---
