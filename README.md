@@ -42,8 +42,8 @@ flowchart LR
     RC -->|采集图像| OBJ
 
     %% 数据流（PC 在上，向右上引出至摄像头）
-    PC -->|图像数据/USB3.0| LC
-    PC -->|图像数据/USB3.0| RC
+    PC <-->|图像数据/USB3.0| LC
+    PC <-->|图像数据/USB3.0| RC
 
     %% 控制流（PC 与 MCU 垂直连接，MCU 在下方向右引出至电机）
     PC <-->|指令与反馈/UART| MCU
