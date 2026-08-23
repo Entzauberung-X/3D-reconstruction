@@ -10,15 +10,6 @@
 
 ```mermaid
 graph TB
-    subgraph Vision_System [视觉采集单元]
-        LC[左摄像头<br>Left Camera]
-        RC[右摄像头<br>Right Camera]
-    end
-
-    subgraph Illumination [照明单元]
-        LL[线激光<br>Red Laser Stripe]
-    end
-
     subgraph Core_Processing_Unit [核心处理单元]
         %% 上位机/软件系统
         VPU[视觉处理单元<br>Vision Processing Unit]
@@ -27,6 +18,15 @@ graph TB
         subgraph Motion_Control [运动控制子系统]
             MCU[STM32 MCU<br>转盘控制]
         end
+    end
+
+    subgraph Vision_System [视觉采集单元]
+        LC[左摄像头<br>Left Camera]
+        RC[右摄像头<br>Right Camera]
+    end
+
+    subgraph Illumination [照明单元]
+        LL[线激光<br>Red Laser Stripe]
     end
 
     %% 连接关系
