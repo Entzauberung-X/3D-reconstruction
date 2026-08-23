@@ -17,6 +17,7 @@ flowchart LR
     classDef sync fill:#ffb,stroke:#333,stroke-width:2px;
 
     subgraph Host[上位机与主控]
+        direction TB  %% 关键修改：强制 PC 和 MCU 上下排布
         PC[上位机 PC<br>3D重建/标定/UI]:::control
         MCU[下位机 STM32<br>电机驱动与触发控制]:::control
     end
@@ -40,11 +41,11 @@ flowchart LR
     LC -->|采集图像| OBJ
     RC -->|采集图像| OBJ
 
-    %% 数据流
+    %% 数据流（PC 在上，向右上引出至摄像头）
     PC -->|图像数据/GigE/USB3.0| LC
     PC -->|图像数据/GigE/USB3.0| RC
 
-    %% 控制流
+    %% 控制流（PC 与 MCU 垂直连接，MCU 在下方向右引出至电机）
     PC <-->|指令与反馈/UART| MCU
     MCU -->|脉冲/方向信号| SM
     SM -->|机械传动| TT
