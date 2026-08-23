@@ -10,16 +10,6 @@
 
 ```mermaid
 graph TB
-    subgraph Core_Processing_Unit [核心处理单元]
-        %% 上位机/软件系统
-        VPU[视觉处理单元<br>Vision Processing Unit]
-        
-        %% 下位机/硬件控制
-        subgraph Motion_Control [运动控制子系统]
-            MCU[STM32 MCU<br>转盘控制]
-        end
-    end
-
     subgraph Vision_System [视觉采集单元]
         LC[左摄像头<br>Left Camera]
         RC[右摄像头<br>Right Camera]
@@ -29,28 +19,36 @@ graph TB
         LL[线激光<br>Red Laser Stripe]
     end
 
+    subgraph Core_Processing_Unit [核心处理单元]
+        %% 上位机/软件系统
+        PC[上位机PC<br>Host PC]
+        
+        %% 下位机控制节点
+        MCU[STM32 MCU<br>转盘控制]
+    end
+
+    subgraph Motion_Control_System [运动控制系统]
+        SM[步进电机<br>Stepper Motor]
+        TT[转盘<br>Turntable]
+    end
+
     %% 连接关系
     LC -- 视野覆盖 --> OBJ[待测物体]
     RC -- 视野覆盖 --> OBJ
     LL -- 投射光平面 --> OBJ
     
-    OBJ -- 放置于 --> TT[转盘<br>Turntable]
+    OBJ -- 放置于 --> TT
     
-    %% 内部连接：STM32 驱动转盘
-    MCU -- 驱动控制 --> TT
+    %% 核心单元内部通信
+    PC -.->|指令/反馈 <br>UART 115200| MCU
     
-    %% 内部通信：视觉单元与MCU
-    VPU -.->|指令/反馈 <br>UART 115200| MCU
-    
-    %% 外部采集连接：视觉单元与摄像头
-    VPU -- 图像采集/控制 <br>USB 3.0 / GigE --> LC
-    VPU -- 图像采集/控制 <br>USB 3.0 / GigE --> RC
-```
+    %% 外部采集连接
+    PC -- 图像采集/控制 <br>USB 3.0 / GigE --> LC
+    PC -- 图像采集/控制 <br>USB 3.0 / GigE --> RC
 
-- **双相机**: 1280×960 分辨率，USB 摄像头，同步采集
-- **线激光器**: 红色激光条纹，投射于被测物体表面
-- **STM32 控制转台**: 通过串口通信控制转台步进旋转，自动触发采集
-
+    %% 运动控制链路
+    MCU -- |脉冲/方向信号<br>Pulse/Dir| SM
+    SM -- 机械传动 --> TT
 ---
 
 ## 功能特性
