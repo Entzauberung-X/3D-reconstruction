@@ -9,46 +9,46 @@
 ## 硬件架构
 
 ```mermaid
-graph TB
-    subgraph Vision_System [视觉采集单元]
-        LC[左摄像头<br>Left Camera]
-        RC[右摄像头<br>Right Camera]
+flowchart LR
+    %% 样式定义
+    classDef control fill:#f9f,stroke:#333,stroke-width:2px;
+    classDef data fill:#bbf,stroke:#333,stroke-width:2px;
+    classDef physics fill:#bfb,stroke:#333,stroke-width:2px;
+    classDef sync fill:#ffb,stroke:#333,stroke-width:2px;
+
+    subgraph Host[上位机与主控]
+        PC[上位机 PC<br>3D重建/标定/UI]:::control
+        MCU[下位机 STM32<br>电机驱动与触发控制]:::control
     end
 
-    subgraph Illumination [照明单元]
-        LL[线激光<br>Red Laser Stripe]
+    subgraph Field[现场设备层]
+        subgraph Vision[视觉与照明]
+            LC[左摄像头]:::data
+            RC[右摄像头]:::data
+            LL[线激光模组]:::physics
+        end
+        subgraph Motion[运动执行]
+            SM[步进电机]:::physics
+            TT[转台]:::physics
+        end
+        OBJ[被测物体]:::physics
     end
 
-    subgraph Core_Processing_Unit [核心处理单元]
-        %% 上位机/软件系统
-        PC[上位机PC<br>Host PC]
-        
-        %% 下位机控制节点
-        MCU[STM32 MCU<br>转盘控制]
-    end
+    %% 物理关系
+    OBJ -->|放置于| TT
+    LL -->|投射激光条纹| OBJ
+    LC -->|采集图像| OBJ
+    RC -->|采集图像| OBJ
 
-    subgraph Motion_Control_System [运动控制系统]
-        SM[步进电机<br>Stepper Motor]
-        TT[转盘<br>Turntable]
-    end
+    %% 数据流
+    PC -->|图像数据/GigE/USB3.0| LC
+    PC -->|图像数据/GigE/USB3.0| RC
+    PC -->|激光控制指令| LL
 
-    %% 连接关系
-    LC -- 视野覆盖 --> OBJ[待测物体]
-    RC -- 视野覆盖 --> OBJ
-    LL -- 投射光平面 --> OBJ
-    
-    OBJ -- 放置于 --> TT
-    
-    %% 核心单元内部通信
-    PC -.->|指令/反馈 <br>UART 115200| MCU
-    
-    %% 外部采集连接
-    PC -- 图像采集/控制 <br>USB 3.0 / GigE --> LC
-    PC -- 图像采集/控制 <br>USB 3.0 / GigE --> RC
-
-    %% 运动控制链路
-    MCU -- |脉冲/方向信号<br>Pulse/Dir| SM
-    SM -- 机械传动 --> TT
+    %% 控制流
+    PC <-->|指令与反馈/UART| MCU
+    MCU -->|脉冲/方向信号| SM
+    SM -->|机械传动| TT
 ```
 
 ---
