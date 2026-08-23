@@ -38,8 +38,8 @@ flowchart LR
     %% 物理关系
     OBJ -->|放置于| TT
     LL -->|投射线激光| OBJ
-    LC <--|采集图像| OBJ
-    RC <--|采集图像| OBJ
+    LC -->|采集图像| OBJ
+    RC -->|采集图像| OBJ
 
     %% 数据流（PC 在上，向右上引出至摄像头）
     PC <-->|图像数据/USB3.0| LC
