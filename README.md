@@ -49,6 +49,8 @@ graph TB
     %% 运动控制链路
     MCU -- |脉冲/方向信号<br>Pulse/Dir| SM
     SM -- 机械传动 --> TT
+```
+
 ---
 
 ## 功能特性
