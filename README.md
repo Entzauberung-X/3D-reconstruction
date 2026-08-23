@@ -36,14 +36,13 @@ flowchart LR
 
     %% 物理关系
     OBJ -->|放置于| TT
-    LL -->|投射激光条纹| OBJ
+    LL -->|投射线激光| OBJ
     LC -->|采集图像| OBJ
     RC -->|采集图像| OBJ
 
     %% 数据流
     PC -->|图像数据/GigE/USB3.0| LC
     PC -->|图像数据/GigE/USB3.0| RC
-    PC -->|激光控制指令| LL
 
     %% 控制流
     PC <-->|指令与反馈/UART| MCU
