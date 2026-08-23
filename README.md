@@ -33,6 +33,10 @@ graph TB
     MCU -- 驱动控制 --> TT
     
     MCU -.->|串口通信<br>115200 baud| Host[上位机/PC]
+
+    %% 补充：上位机与摄像头的连接
+    Host -- USB 3.0 / GigE --> LC
+    Host -- USB 3.0 / GigE --> RC
 ```
 
 - **双相机**: 1280×960 分辨率，USB 摄像头，同步采集
