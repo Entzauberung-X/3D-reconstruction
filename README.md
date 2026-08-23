@@ -19,9 +19,14 @@ graph TB
         LL[线激光<br>Red Laser Stripe]
     end
 
-    subgraph Motion_Control [运动控制单元]
-        TT[转盘<br>Turntable]
-        MCU[STM32 MCU<br>转盘控制]
+    subgraph Core_Processing_Unit [核心处理单元]
+        %% 上位机/软件系统
+        VPU[视觉处理单元<br>Vision Processing Unit]
+        
+        %% 下位机/硬件控制
+        subgraph Motion_Control [运动控制子系统]
+            MCU[STM32 MCU<br>转盘控制]
+        end
     end
 
     %% 连接关系
@@ -29,14 +34,17 @@ graph TB
     RC -- 视野覆盖 --> OBJ
     LL -- 投射光平面 --> OBJ
     
-    OBJ -- 放置于 --> TT
+    OBJ -- 放置于 --> TT[转盘<br>Turntable]
+    
+    %% 内部连接：STM32 驱动转盘
     MCU -- 驱动控制 --> TT
     
-    MCU -.->|串口通信<br>115200 baud| Host[上位机/PC]
-
-    %% 补充：上位机与摄像头的连接
-    Host -- USB 3.0 / GigE --> LC
-    Host -- USB 3.0 / GigE --> RC
+    %% 内部通信：视觉单元与MCU
+    VPU -.->|指令/反馈 <br>UART 115200| MCU
+    
+    %% 外部采集连接：视觉单元与摄像头
+    VPU -- 图像采集/控制 <br>USB 3.0 / GigE --> LC
+    VPU -- 图像采集/控制 <br>USB 3.0 / GigE --> RC
 ```
 
 - **双相机**: 1280×960 分辨率，USB 摄像头，同步采集
