@@ -136,7 +136,7 @@ flowchart TD
 | **CMake** | ≥ 3.16 | 构建系统 |
 | **Qt 5** | Core, Widgets, Concurrent, OpenGL, SerialPort | GUI + 多线程 + 串口 |
 | **OpenCV** | ≥ 4.4 | 图像处理、相机标定、SIFT、立体匹配、三角测量 |
-| **PCL** | ≥ 1.12 | 点云处理、ICP 配准、滤波、Poisson/GP3 曲面重建 |
+| **PCL** | ≥ 1.12 | 点云处理滤波、GP3 曲面重建 |
 | **Eigen3** | — | 线性代数（矩阵运算、SVD） |
 | **VTK** | 随 PCL / QVTKOpenGLWidget | 三维渲染 |
 
