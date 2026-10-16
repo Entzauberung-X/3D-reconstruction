@@ -3,8 +3,6 @@ Binocular Line Laser Turntable 3D Reconstruction — v1.0
 
 > 用结构光（双目 + 线激光）与转台实现高精度小型工件三维扫描与重建。
 
-![3D reconstruction demo](https://github.com/user-attachments/assets/9f8f6a57-28c1-459a-9b6f-d75056e420d2)
-
 ## 项目概览
 - 目标：构建一套可复现的桌面级三维扫描与重建系统，适用于小型工件的逆向工程、尺寸测量与学术原型验证。
 - 技术路线：双目视觉 + 线激光 + 旋转转台 + 多视角配准。
