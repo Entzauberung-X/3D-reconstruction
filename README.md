@@ -28,18 +28,15 @@ Binocular Line Laser Turntable 3D Reconstruction — v1.0
    cd build
    ./3D_reconstruction
 
-运行流程（界面）
+运行流程
 1. 双目采集 — 连接相机与串口，采集标定/扫描图像  
 2. 相机标定 — 单目与双目立体标定  
 3. 激光标定 — 激光中心线提取与平面拟合  
 4. 转轴标定 — 旋转轴方向与位姿估计  
 5. 三维重建 — 配置 S1–S6 参数并执行重建
 
-项目结构（简要）
+项目结构
 - CMakeLists.txt
 - include/ — 头文件（cameracalibration, lasercalibration, pointcloudbuilder, rotatingcalibrator, …）
 - src/ — 源码（main, core, io, ui）
 - build/Resources/ — 运行数据与标定结果
-
-说明
-此 README 为精简版，保留使用与构建的必要信息。如需我将其恢复为详细版或添加徽章/示意图，我可以继续修改。
