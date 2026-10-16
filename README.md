@@ -87,6 +87,3 @@ cd build
 
 ## 贡献
 欢迎提交 Issue 与 Pull Request，改进标定算法、交互体验或重建流程。
-
-## 作者
-Entzauberung-X
